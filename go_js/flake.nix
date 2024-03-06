@@ -36,9 +36,9 @@
             ];
             shellHook = ''
               # install bundler
-              pnpm i -D esbuild \
+              pnpm i -D esbuild
               # install frontend framework
-              react react-dom
+              pnpm i -D react react-dom
             '';
           };
         });
