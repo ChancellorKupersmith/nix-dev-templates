@@ -101,6 +101,11 @@
           description = "Go (Golang) development environment";
         };
 
+        go_js = {
+          path = ./go_js;
+          description = "Go (Golang) backend, JS frontend development environment";
+        };
+
         hashi = {
           path = ./hashi;
           description = "HashiCorp DevOps tools development environment";
