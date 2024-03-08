@@ -1,6 +1,5 @@
 .direnv/
 target
 result
-dist/
+dist/bundle.js
 node_modules/
-!index.html
