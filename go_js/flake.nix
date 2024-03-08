@@ -35,7 +35,7 @@
               node2nix nodejs pnpm yarn
             ];
             shellHook = ''
-            chmod +x init_client_app.sh
+            chmod +x ./init_client_app.sh
             ./init_client_app.sh
             '';
           };
