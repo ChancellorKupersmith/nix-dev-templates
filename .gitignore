@@ -1,5 +1,5 @@
 .direnv/
 target
 result
-dist/bundle.js
+dist/src
 node_modules/
