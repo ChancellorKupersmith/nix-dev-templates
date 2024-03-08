@@ -3,3 +3,4 @@ target
 result
 dist/
 node_modules/
+!index.html
