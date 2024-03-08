@@ -25,7 +25,7 @@ if [ -d "./client" ]; then
       <div id="root"></div>
       <script type="module" src="src/bundle.js"></script>
     </body>
-    </html> > dist/index.html
+    </html>' > dist/index.html
   else
     echo "dist folder was pulled from github!"
   fi
