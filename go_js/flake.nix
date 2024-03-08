@@ -35,10 +35,7 @@
               node2nix nodejs pnpm yarn
             ];
             shellHook = ''
-              # install bundler
-              pnpm i -D esbuild
-              # install frontend framework
-              pnpm i -D react react-dom
+              ./init_client_app.sh
             '';
           };
         });
