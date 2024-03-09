@@ -37,6 +37,8 @@
             shellHook = ''
             chmod +x ./init_client_app.sh
             ./init_client_app.sh
+            chmod +x ./init_server.sh
+            ./init_server.sh
             '';
           };
         });

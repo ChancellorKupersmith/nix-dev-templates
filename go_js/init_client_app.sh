@@ -12,7 +12,7 @@ if [ -d "./client" ]; then
   cd client || exit 1
 
   # create index.html in dist (bug: not pulling from git)
-  if [! -d "./dist" ]; then
+  if [ ! -d "./dist" ]; then
     mkdir dist
     echo '<!DOCTYPE html>
     <html lang="en">
@@ -27,7 +27,7 @@ if [ -d "./client" ]; then
     </body>
     </html>' > dist/index.html
   else
-    echo "dist folder was pulled from github!"
+    echo "dist folder was pulled from github! now safe to delete this conditional"
   fi
 
   pnpm i -D esbuild react react-dom || catch_err "Failed to install client dependencies"
