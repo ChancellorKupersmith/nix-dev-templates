@@ -8,35 +8,70 @@
       overlays = [
         (final: prev:
           let
-            exec = pkg: "${prev.${pkg}}/bin/${pkg}";
-          in
-          {
-            format = prev.writeScriptBin "format" ''
-              ${exec "nixpkgs-fmt"} **/*.nix
-            '';
-            dvt = prev.writeScriptBin "dvt" ''
-              if [ -z $1 ]; then
-                echo "no template specified"
-                exit 1
-              fi
-
-              TEMPLATE=$1
-
-              ${exec "nix"} \
-                --experimental-features 'nix-command flakes' \
-                flake init \
-                --template \
-                "github:the-nix-way/dev-templates#''${TEMPLATE}"
-            '';
-            update = prev.writeScriptBin "update" ''
-              for dir in `ls -d */`; do # Iterate through all the templates
+            getSystem = "SYSTEM=$(nix eval --impure --raw --expr 'builtins.currentSystem')";
+            forEachDir = exec: ''
+              for dir in */; do
                 (
-                  cd $dir
-                  ${exec "nix"} flake update # Update flake.lock
-                  ${exec "nix"} flake check  # Make sure things work after the update
+                  cd "''${dir}"
+
+                  ${exec}
                 )
               done
             '';
+          in
+          {
+            format = final.writeShellApplication {
+              name = "format";
+              runtimeInputs = with final; [ nixpkgs-fmt ];
+              text = "nixpkgs-fmt '**/*.nix'";
+            };
+
+            # only run this locally, as Actions will run out of disk space
+            build = final.writeShellApplication {
+              name = "build";
+              text = ''
+                ${getSystem}
+
+                ${forEachDir ''
+                  echo "building ''${dir}"
+                  nix build ".#devShells.''${SYSTEM}.default"
+                ''}
+              '';
+            };
+
+            check = final.writeShellApplication {
+              name = "check";
+              text = forEachDir ''
+                echo "checking ''${dir}"
+                nix flake check --all-systems --no-build
+              '';
+            };
+
+            dvt = final.writeShellApplication {
+              name = "dvt";
+              text = ''
+                if [ -z $1 ]; then
+                  echo "no template specified"
+                  exit 1
+                fi
+
+                TEMPLATE=$1
+
+                nix \
+                  --experimental-features 'nix-command flakes' \
+                  flake init \
+                  --template \
+                  "github:the-nix-way/dev-templates#''${TEMPLATE}"
+              '';
+            };
+
+            update = final.writeShellApplication {
+              name = "update";
+              text = forEachDir ''
+                echo "updating ''${dir}"
+                nix flake update
+              '';
+            };
           })
       ];
       supportedSystems = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
@@ -47,7 +82,7 @@
     {
       devShells = forEachSupportedSystem ({ pkgs }: {
         default = pkgs.mkShell {
-          packages = with pkgs; [ format update ];
+          packages = with pkgs; [ build check format update ];
         };
       });
 
@@ -89,6 +124,11 @@
         elm = {
           path = ./elm;
           description = "Elm development environment";
+        };
+
+        empty = {
+          path = ./empty;
+          description = "Empty dev template that you can customize at will";
         };
 
         gleam = {
@@ -204,6 +244,11 @@
         shell = {
           path = ./shell;
           description = "Shell script development environment";
+        };
+
+        vlang = {
+          path = ./vlang;
+          description = "Vlang developent environment";
         };
 
         zig = {
