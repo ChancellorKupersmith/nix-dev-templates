@@ -35,6 +35,7 @@ Once your preferred template has been initialized, you can use the provided shel
 | [Dhall]                  | [`dhall`](./dhall/)           |
 | [Elixir]                 | [`elixir`](./elixir/)         |
 | [Elm]                    | [`elm`](./elm/)               |
+| Empty (change at will)   | [`empty`](./empty)            |
 | [Gleam]                  | [`gleam`](./gleam/)           |
 | [Go]                     | [`go`](./go/)                 |
 | [Hashicorp] tools        | [`hashi`](./hashi/)           |
@@ -56,6 +57,7 @@ Once your preferred template has been initialized, you can use the provided shel
 | [Rust]                   | [`rust`](./rust/)             |
 | [Scala]                  | [`scala`](./scala/)           |
 | [Shell]                  | [`shell`](./shell/)           |
+| [Vlang]                  | [`vlang`](./vlang/)           |
 | [Zig]                    | [`zig`](./zig/)               |
 
 ## Template contents
@@ -102,6 +104,10 @@ The sections below list what each template includes. In all cases, you're free t
 - [Elm] 0.19.1
 - [elm2nix]
 
+### [Empty](./empty/)
+
+A dev template that's fully customizable.
+
 ### [`gleam`](./gleam/)
 
 - [Gleam] 0.30.0
@@ -139,6 +145,7 @@ The sections below list what each template includes. In all cases, you're free t
 - [Java] 20.0.1+9
 - [Maven] 3.9.2
 - [Gradle] 9.0.1
+- [jdtls] 1.31.0
 
 ### [`kotlin`](./kotlin/)
 
@@ -221,7 +228,6 @@ The sections below list what each template includes. In all cases, you're free t
 
 - [Python] 3.11.4
 - [pip] 23.0.1
-- [Virtualenv] 20.19.0
 
 ### [`ruby`](./ruby/)
 
@@ -247,6 +253,10 @@ The sections below list what each template includes. In all cases, you're free t
 ### [`shell`](./shell/)
 
 - [shellcheck] 0.9.0
+
+### [`Vlang`](./vlang/)
+
+- [Vlang] 0.4.4
 
 ### [`zig`](./zig/)
 
@@ -299,6 +309,7 @@ All of the templates have only the root [flake](./flake.nix) as a flake input. T
 [haxe]: https://haxe.org/
 [iex]: https://hexdocs.pm/iex/IEx.html
 [java]: https://java.com
+[jdtls]: https://projects.eclipse.org/projects/eclipse.jdt.ls
 [jq]: https://jqlang.github.io/jq
 [kotlin]: https://kotlinlang.org
 [latex]: https://www.latex-project.org/
@@ -355,7 +366,7 @@ All of the templates have only the root [flake](./flake.nix) as a flake input. T
 [texlive]: https://www.tug.org/texlive/
 [tflint]: https://github.com/terraform-linters/tflint
 [vault]: https://www.vaultproject.io
-[virtualenv]: https://pypi.org/project/virtualenv
 [vulnix]: https://github.com/flyingcircusio/vulnix
 [yarn]: https://yarnpkg.com
+[vlang]: https://vlang.io/
 [zig]: https://ziglang.org
