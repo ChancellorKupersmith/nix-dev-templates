@@ -23,6 +23,22 @@
         pythonPackages = pkgs.python312.withPackages (ps: with ps; [
 
         ]);
+        PythonVSCodeExtensions = with unstable-pkgs.vscode-extensions; [
+          ms-python.python
+          aaron-bond.better-comments
+        ];      
+        # ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+          # {
+          #   name = "remote-ssh-edit";
+          #   publisher = "ms-vscode-remote";
+          #   version = "0.47.2";
+          #   sha256 = "1hp6gjh4xp2m1xlm1jsdzxw9d8frkiidhph6nvl24d0h8z34w49g";
+          # }
+        # ];
+        # Here we merge the parent’s VS Code extensions (if any) with our extra extensions.
+        mergedVscodeExtensions =
+          (unstable-pkgs.vscode-extensions.vscodeExtensions or [])
+          ++ extraPythonExtensions;
       in 
       {
         default = pkgs.mkShell {
@@ -31,19 +47,9 @@
           ];
           packages = [
             (unstable-pkgs.vscode-with-extensions.override {
-              vscode = unstable-pkgs.vscodium;
-              vscodeExtensions = with unstable-pkgs.vscode-extensions; [
-                ms-python.python
-                aaron-bond.better-comments
-              ];
-              # ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
-                # {
-                #   name = "remote-ssh-edit";
-                #   publisher = "ms-vscode-remote";
-                #   version = "0.47.2";
-                #   sha256 = "1hp6gjh4xp2m1xlm1jsdzxw9d8frkiidhph6nvl24d0h8z34w49g";
-                # }
-              # ];
+                vscode = unstable-pkgs.vscodium;
+                # Merge parent's VS Code extensions with our extras.
+                vscodeExtensions = mergedVscodeExtensions;
             })
           ] ++ (with pkgs.python312Packages; [ 
             uv
