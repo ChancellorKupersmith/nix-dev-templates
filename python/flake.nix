@@ -23,7 +23,7 @@
         pythonPackages = pkgs.python312.withPackages (ps: with ps; [
 
         ]);
-        PythonVSCodeExtensions = with unstable-pkgs.vscode-extensions; [
+        pythonVSCodeExtensions = with unstable-pkgs.vscode-extensions; [
           ms-python.python
           aaron-bond.better-comments
         ];      
@@ -38,7 +38,7 @@
         # Here we merge the parent’s VS Code extensions (if any) with our extra extensions.
         mergedVscodeExtensions =
           (unstable-pkgs.vscode-extensions.vscodeExtensions or [])
-          ++ extraPythonExtensions;
+          ++ pythonVSCodeExtensions;
       in 
       {
         default = pkgs.mkShell {

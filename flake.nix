@@ -106,6 +106,11 @@
           description = "C# development environment";
         };
 
+        cuda = {
+          path = ./cuda;
+          description = "CUDA development environment";
+        };
+
         cue = {
           path = ./cue;
           description = "Cue development environment";
