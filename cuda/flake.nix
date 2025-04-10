@@ -22,10 +22,10 @@
     in {
         devShells = forEachSupportedSystem ({ pkgs, unstable-pkgs }: {
             default = pkgs.mkShell {
+                nativeBuildInputs = [ pkgs.pkg-config ];
                 buildInputs = [
                     unstable-pkgs.cudatoolkit
                     unstable-pkgs.linuxPackages.nvidia_x11
-                    stdenv.cc
                 ];
                 packages = [];
                 shellHook = ''
