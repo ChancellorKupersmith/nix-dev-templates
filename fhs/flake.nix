@@ -1,34 +1,25 @@
 {
-  description = "FHS Nix Shell";
+  description = "A FHS nix shell";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
   };
   outputs = { self, nixpkgs }:
     let
-        supportedSystems = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
-        forEachSupportedSystem = f: nixpkgs.lib.genAttrs supportedSystems (system: f {
-            pkgs = import nixpkgs { inherit system; };
-        });
+        system = "x86_64-linux";
+        pkgs = nixpkgs.legacyPackages.${system};
+        fhs = pkgs.buildFHSUserEnv {
+            name = "fhs-shell";
+            multiPkgs = pkgs: [
+    
+            ];
+            
+            profile = ''
+                reset # fixes invisible chars bug
+            '';
+        };
     in
     {
-        # Create an FHS user environment
-        fhsShells = forEachSupportedSystem ({ pkgs }: {
-            default = pkgs.fhsUserEnv {
-                name = "fhs-env";
-                buildInputs = with pkgs [
-                    # Add any other packages you need
-                    cudatoolkit
-                ];
-
-                # Optionally, specify any additional configuration
-                # e.g., setting up environment variables
-                shellHook = ''
-                    export CUDA_PATH=${pkgs.cudatoolkit}/bin
-                    export PATH=$PATH:${pkgs.cudatoolkit}/bin
-                    # Add other environment variables or setup commands here
-                '';
-            };
-        });
+        devShells.${system}.default = fhs.env;
     };
 }
