@@ -226,6 +226,11 @@
           description = "Python development environment";
         };
 
+        ros = {
+          path = ./ros;
+          description = "ROS2 development enviornment";
+        };
+
         ruby = {
           path = ./ruby;
           description = "Ruby development environment";
