@@ -1,0 +1,34 @@
+# Configuration
+skeleton := "src/solution.py"
+tests    := "tests/test_solution.py"
+
+# Implementation Loop
+# Aider will read your files and iterate until 'pytest' exits with 0
+impl:
+    @if [ ! -f {{skeleton}} ]; then echo "❌ Missing {{skeleton}}"; exit 1; fi
+    @aider --model $AIDER_MODEL \
+           --test "pytest {{tests}} --tb=short" \
+           --auto-test \
+           --no-suggest-shell-commands \
+           {{skeleton}} {{tests}}
+
+# The Watch Loop: Instant feedback in VSCodium
+# Keep this running in a split terminal to see test results as you edit
+watch:
+    ptw --runner "pytest {{tests}} --tb=short"
+
+# The "Hard Reset": Clears function bodies but keeps your architecture
+# This is perfect if the AI goes down a rabbit hole and you want a fresh start
+reset-impl:
+    @echo "Cleaning implementation while preserving signatures..."
+    @sed -i '/def .*:/!b;n;c\    ...' {{skeleton}}
+    @echo "✓ {{skeleton}} reset to stubs."
+
+# Manual Check
+check:
+    mypy {{skeleton}}
+    pytest {{tests}} -v
+
+# Open everything in Codium
+edit:
+    codium {{skeleton}} {{tests}}
